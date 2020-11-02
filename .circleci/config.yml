@@ -1,3 +1,4 @@
+version: 2.1
 jobs:
   node:
     working_directory: ~/demo-react-native
@@ -100,25 +101,35 @@ jobs:
               bundle exec fastlane beta
 
 workflows:
-  version: 2.1
   node-android-ios:
     jobs:
       - android-hold:
           type: approval
         filters:
-          tags:
-            only: /^v.*/
-          branches:
-            ignore: /.*/
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
       - node:
         filters:
-          tags:
-            only: /^v.*/
-          branches:
-            ignore: /.*/
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/ 
       - android-alpha:
           requires:
             - node
+            filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
       - android-beta:
           requires:
             - android-hold
+            filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+    
