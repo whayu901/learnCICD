@@ -1,4 +1,4 @@
-package com.awesometsproject;
+package com.myapp.katana;
 
 import android.app.Application;
 import android.content.Context;

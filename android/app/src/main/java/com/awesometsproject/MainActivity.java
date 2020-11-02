@@ -1,4 +1,4 @@
-package com.awesometsproject;
+package com.myapp.katana;
 
 import com.facebook.react.ReactActivity;
 
