@@ -112,7 +112,6 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
-
       - node:
         filters:
             tags:
