@@ -1,4 +1,3 @@
-
 jobs:
   node:
     working_directory: ~/demo-react-native
@@ -107,30 +106,19 @@ workflows:
       - android-hold:
           type: approval
         filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
+          tags:
+            only: /^v.*/
+          branches:
+            ignore: /.*/
       - node:
         filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/ 
+          tags:
+            only: /^v.*/
+          branches:
+            ignore: /.*/
       - android-alpha:
           requires:
             - node
-            filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
       - android-beta:
           requires:
             - android-hold
-            filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
-    
