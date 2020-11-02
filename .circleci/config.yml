@@ -1,4 +1,4 @@
-version: 2.1
+
 jobs:
   node:
     working_directory: ~/demo-react-native
@@ -45,7 +45,6 @@ jobs:
       - store_artifacts:
           path: test-results
 
-  # Android Alpha
   android-alpha:
     working_directory: ~/demo-react-native/android
     docker:
@@ -75,7 +74,6 @@ jobs:
       - store_artifacts:
           path: app/build/outputs/apk/release/app-release.apk
 
-    #  Android Beta
     android-beta:
       working_directory: ~/demo-react-native/android
       docker:
@@ -103,10 +101,11 @@ jobs:
               bundle exec fastlane beta
 
 workflows:
+  version: 2.1
   node-android-ios:
     jobs:
       - android-hold:
-        type: approval
+          type: approval
         filters:
             tags:
               only: /^v.*/

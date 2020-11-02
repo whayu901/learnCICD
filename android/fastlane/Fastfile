@@ -16,6 +16,9 @@
 default_platform(:android)
 
 platform :android do
+  before_all do 
+    setup_circle_ci
+  end
   desc "Runs all the tests"
   lane :test do
     gradle(task: "test")
@@ -23,7 +26,7 @@ platform :android do
 
   desc "Submit alpha"
   lane :alpha do
-    gradle(task: "clean assemble", build_type: 'Release')
+    gradle(task: "clean assembleRelease")
     upload_to_play_store(track: 'alpha')
 
     # sh "your_script.sh"
@@ -32,7 +35,6 @@ platform :android do
 
   desc "Promote aplha build to beta"
   lane :deploy do
-    gradle(task: "clean assembleRelease")
     upload_to_play_store(track: 'alpha', track_promote_to: 'beta')
   end
 end
