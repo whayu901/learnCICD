@@ -27,7 +27,7 @@ platform :android do
   desc "Submit alpha"
   lane :alpha do
     gradle(task: "clean assembleRelease")
-  
+    upload_to_play_store(track: 'alpha')
 
     # sh "your_script.sh"
     # You can also use other beta testing services here

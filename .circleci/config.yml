@@ -107,10 +107,6 @@ workflows:
           type: approval
 
       - node
-      - android-alpha:
-          requires:
-            - node
-
       - android-beta:
           requires:
             - android-hold
