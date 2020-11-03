@@ -21,16 +21,16 @@ or alternatively using `brew install fastlane`
 fastlane android test
 ```
 Runs all the tests
-### android beta
+### android alpha
 ```
-fastlane android beta
+fastlane android alpha
 ```
-Submit a new Beta Build to Crashlytics Beta
+Submit alpha
 ### android deploy
 ```
 fastlane android deploy
 ```
-Deploy a new version to the Google Play
+Promote aplha build to beta
 
 ----
 
