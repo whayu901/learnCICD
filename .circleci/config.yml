@@ -1,80 +1,105 @@
----
+version: 2.1
 jobs:
-  android-alpha:
-    docker:
-      - image: "circleci/android:api-29-node"
-    steps:
-      - checkout:
-          path: ~/demo-react-native
-      - attach_workspace:
-          at: ~/demo-react-native
-      - restore_cache:
-          key: 'bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}'
-      - run: "bundle install"
-      - save_cache:
-          key: 'bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}'
-          paths:
-            - vendor/bundle
-      - run:
-          command: "cd android; bundle exec fastlane alpha\n"
-          name: "fastlane android alpha"
-      - store_artifacts:
-          path: app/build/outputs/apk/release/app-release.apk
-    working_directory: ~/demo-react-native/android
-  android-beta:
-    docker:
-      - image: "circleci/android:api-29-node"
-    steps:
-      - checkout:
-          path: ~/demo-react-native
-      - attach_workspace:
-          at: ~/demo-react-native
-      - restore_cache:
-          key: 'bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}'
-      - run: "bundle install"
-      - save_cache:
-          key: 'bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}'
-          paths:
-            - vendor/bundle
-      - run:
-          command: "cd android; bundle exec fastlane beta\n"
-          name: "fastlane android beta"
-    working_directory: ~/demo-react-native/android
   node:
+    working_directory: ~/demo-react-native
     docker:
-      - image: "cimg/node:12.16"
+      - image: cimg/node:12.16
+
     steps:
       - checkout
+
       - restore_cache:
-          key: 'npm-v1-{{ checksum "package.lock.json" }}-{{ arch }}'
+          key: npm-v1-{{ checksum "package.lock.json" }}-{{ arch }}
+
       - restore_cache:
-          key: 'node-v1-{{ checksum "package.json" }}-{{ arch }}'
-      - run: "npm install"
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
+
+      - run: npm install
+
       - save_cache:
-          key: 'npm-v1-{{ checksum "package.lock.json" }}-{{ arch }}'
+          key: npm-v1-{{ checksum "package.lock.json" }}-{{ arch }}
           paths:
             - ~/.cache/npm
+
       - save_cache:
-          key: 'node-v1-{{ checksum "package.json" }}-{{ arch }}'
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
           paths:
             - node_modules
+
       - run:
+          name: jest tests
           command: |
             mkdir -p test-results/jest
             npm run test
           environment:
             JEST_JUNIT_OUTPUT: test-results/jest/junit.xml
-          name: "jest tests"
+
       - persist_to_workspace:
+          root: ~/demo-react-native
           paths:
             - node_modules
-          root: ~/demo-react-native
+
       - store_test_results:
           path: test-results
+
       - store_artifacts:
           path: test-results
-    working_directory: ~/demo-react-native
-version: 2.1
+
+  android-alpha:
+    working_directory: ~/demo-react-native/android
+    docker:
+      - image: circleci/android:api-29-node
+    steps:
+      - checkout:
+          path: ~/demo-react-native
+
+      - attach_workspace:
+          at: ~/demo-react-native
+
+      - restore_cache:
+          key: bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}
+
+      - run: bundle install
+
+      - save_cache:
+          key: bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}
+          paths:
+            - vendor/bundle
+
+      - run:
+          name: fastlane android alpha
+          command: |
+            cd android; bundle exec fastlane alpha
+
+      - store_artifacts:
+          path: app/build/outputs/apk/release/app-release.apk
+
+  android-beta:
+    working_directory: ~/demo-react-native/android
+    docker:
+      - image: circleci/android:api-29-node
+    steps:
+      - checkout:
+          path: ~/demo-react-native
+
+      - attach_workspace:
+          at: ~/demo-react-native
+
+      - restore_cache:
+          key: bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}
+
+      - run: bundle install
+
+      - save_cache:
+          key: bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}
+          paths:
+            - vendor/bundle
+
+      - run:
+          name: fastlane android beta
+          command: |
+            cd android; bundle exec fastlane beta
+
 workflows:
   node-android-ios:
     jobs:
