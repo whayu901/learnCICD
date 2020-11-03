@@ -69,7 +69,7 @@ jobs:
       - run:
           name: fastlane android alpha
           command: |
-            cd android; bundle exec fastlane alpha
+            bundle exec fastlane alpha
 
       - store_artifacts:
           path: app/build/outputs/apk/release/app-release.apk
@@ -98,7 +98,7 @@ jobs:
       - run:
           name: fastlane android beta
           command: |
-            cd android; bundle exec fastlane beta
+            bundle exec fastlane beta
 
 workflows:
   node-android-ios:
