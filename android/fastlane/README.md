@@ -26,9 +26,9 @@ Runs all the tests
 fastlane android alpha
 ```
 Submit alpha
-### android deploy
+### android beta
 ```
-fastlane android deploy
+fastlane android beta
 ```
 Promote aplha build to beta
 
