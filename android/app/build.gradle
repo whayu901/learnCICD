@@ -152,10 +152,10 @@ android {
         }
 
         release {
-            storeFile file("../katana.jks")
-            storePassword "123Aakurapopo"
-            keyAlias "keyku"
-            keyPassword "123Aakurapopo"
+            storeFile file('katana.jks')
+            storePassword '123Aakurapopo'
+            keyAlias 'keyku'
+            keyPassword '123Aakurapopo'
         }
     }
     buildTypes {
